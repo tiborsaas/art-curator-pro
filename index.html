@@ -9,13 +9,20 @@
 </head>
 <body>
     <header>
-        <h1>Art Curator Pro</h1>
-        <video></video>
-        <button id="screenshot">take screenshot</button>
+        <article>
+            <h1>Art Curator</h1>
+            <p>Abstract art or child's drawing?</p>
+        </article>
     </header>
+    <article class="webcam hidden">
+        <section>
+            <video></video>
+            <button id="screenshot">take screenshot</button>
+        </section>
+    </article>
     <main>
-        <span>Pick a file</span>
-        <input type="file" id="upload">
+        <input type="file" id="upload" class="hidden">
+        <label for="upload">Upload image</label>
         <span>or</span>
         <button id="camera">Use camera</button>
     </main>

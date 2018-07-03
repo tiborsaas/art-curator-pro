@@ -3,6 +3,7 @@ const App = {
     init() {
         console.log("initializing...");
         this.endpoint = 'http://0af1cd4d.ngrok.io/predict';
+        this.webcam = document.querySelector('.webcam');
         this.canvas = document.querySelector('canvas');
         this.video = document.querySelector('video');
         this.ctx = this.canvas.getContext('2d');
@@ -48,7 +49,6 @@ const App = {
                     console.log(response);
                 })
         };
-
         reader.readAsDataURL(file);
     },
 
@@ -62,6 +62,7 @@ const App = {
                 this.video.srcObject = stream;
                 this.video.onloadedmetadata = e => {
                     this.video.play();
+                    this.webcam.classList.remove('hidden');
                     this.setupCanvas();
                 };
             })
@@ -76,6 +77,8 @@ const App = {
     },
 
     takeScreenshot() {
+        console.log(this.ctx, this.canvas);
+        
         this.ctx.drawImage(this.video, 0, 0);
         return this.canvas.toDataURL();
     },
