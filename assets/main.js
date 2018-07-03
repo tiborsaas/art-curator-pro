@@ -24,7 +24,11 @@ const App = {
     addScreenshotEvent() {
         const button = document.querySelector('#screenshot');
         button.addEventListener('click', e => {
-            this.sendImageData(this.takeScreenshot());
+            console.log('sending screenshot to server...');
+            this.sendImageData(this.takeScreenshot())
+                .then(response => {
+                    console.log(response);
+                })
         });
     },
 
@@ -42,7 +46,6 @@ const App = {
             this.sendImageData(fileEvent.target.result)
                 .then(response => {
                     console.log(response);
-
                 })
         };
 
@@ -55,7 +58,7 @@ const App = {
             video: true
         };
         navigator.mediaDevices.getUserMedia(config)
-            .then( stream => {
+            .then(stream => {
                 this.video.srcObject = stream;
                 this.video.onloadedmetadata = e => {
                     this.video.play();
