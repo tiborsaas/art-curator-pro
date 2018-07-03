@@ -1,0 +1,23 @@
+{
+  "name": "art-curator-pro",
+  "version": "1.0.0",
+  "description": "With the help of deep convolutional neural networks, finally it's no longer a problem to decide if a child did it or a skillful artist.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tiborsaas/art-curator-pro.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tiborsaas/art-curator-pro/issues"
+  },
+  "homepage": "https://github.com/tiborsaas/art-curator-pro#readme",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}

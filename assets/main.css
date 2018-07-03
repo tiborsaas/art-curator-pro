@@ -1,0 +1,42 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    height: 100%;
+}
+
+canvas {
+    display: none;
+}
+
+header {
+    height: 50%;
+    background: tomato;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50%;
+}
+
+button, input {
+    padding: 1rem 2rem;
+    background: darkgray;
+    border: none;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+main span {
+    margin: 2rem;
+}
