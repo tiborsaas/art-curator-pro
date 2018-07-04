@@ -2,14 +2,16 @@
 const App = {
     init() {
         console.log("initializing...");
-        this.endpoint = 'http://b72c2056.ngrok.io/predict';
+        this.server = 'http://60f97e7e.ngrok.io';
         this.webcam = document.querySelector('.webcam');
         this.canvas = document.querySelector('canvas');
         this.video = document.querySelector('video');
         this.ctx = this.canvas.getContext('2d');
+        this.imageDataURL = '';
         this.addImageUploadEvent();
         this.addCameraEvent();
         this.addScreenshotEvents();
+        this.addUserPredictEvents();
     },
 
     addImageUploadEvent() {
@@ -22,20 +24,28 @@ const App = {
         button.addEventListener('click', this.cameraInit.bind(this));
     },
 
+    addUserPredictEvents() {
+        const button_wrapper = document.querySelector('.predict nav');
+        button_wrapper.addEventListener('click', e => {
+            const user_choice = e.target.dataset.choice;
+            if (user_choice) {
+                this.handleUserSubmit(user_choice)
+                    .then(this.displayResults);
+            }
+        });
+    },
+
     addScreenshotEvents() {
         const submit_button = document.querySelector('#screenshot');
         const close_button = document.querySelector('.webcam .close');
 
         submit_button.addEventListener('click', e => {
-            console.log('sending screenshot to server...');
-            this.sendImageData(this.takeScreenshot())
-                .then(response => {
-                    console.log(response);
-                })
+            this.displayUserChoiceDialog();
+            this.imageDataURL = this.takeScreenshot();
         });
-        
+
         close_button.addEventListener('click', e => {
-            this.webcam.classList.add('hidden');            
+            this.webcam.classList.add('hidden');
         });
     },
 
@@ -43,19 +53,28 @@ const App = {
         const file = e.target.files[0];
         const reader = new FileReader();
 
+        if (!file.type) {
+            return;
+        }
+
         if (!file.type.match('image.*')) {
-            alert('No image file')
+            alert('No image file');
             return;
         }
 
         reader.onload = fileEvent => {
-            console.log('sending file to server...');
-            this.sendImageData(fileEvent.target.result)
-                .then(response => {
-                    console.log(response);
-                })
+            this.imageDataURL = fileEvent.target.result;
+            this.displayUserChoiceDialog();
         };
         reader.readAsDataURL(file);
+    },
+
+    displayUserChoiceDialog() {
+        document.querySelector('.predict').classList.remove('hidden');
+    },
+
+    setUserChoiceDialogLoading() {
+        document.querySelector('.predict').classList.add('loading');
     },
 
     cameraInit() {
@@ -83,17 +102,26 @@ const App = {
     },
 
     takeScreenshot() {
-        console.log(this.ctx, this.canvas);
-        
         this.ctx.drawImage(this.video, 0, 0);
         return this.canvas.toDataURL();
     },
 
-    sendImageData(imageData) {
+    displayResults() {
+        
+    },
+
+    handleUserSubmit(user_choice) {
         const data = {
-            image: imageData
+            image: this.imageDataURL,
+            user_choice
         }
-        return fetch(this.endpoint, {
+        this.setUserChoiceDialogLoading();
+        return this.sendImageData(data);
+    },
+
+    sendImageData(data) {
+        console.log('sending data to server...', data);
+        return fetch(this.server + '/predict', {
             method: "POST",
             mode: "cors",
             headers: {

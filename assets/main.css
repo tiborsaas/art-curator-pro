@@ -148,3 +148,21 @@ input[type="file"] {
     .predict.hidden section {
         transform: rotateX(90deg);
     }
+
+    /* state switches */
+    .predict section.loading {
+        display: none;
+    }
+
+    .predict.loading {
+        background: transparent url(loading.gif) no-repeat center center;
+        background-size: cover;
+    }
+
+    .predict.loading section.loading {
+        display: block;
+    }
+
+    .predict.loading section.buttons {
+        display: none;
+    }
