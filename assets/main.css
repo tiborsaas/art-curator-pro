@@ -77,6 +77,7 @@ main {
 }
 
 .webcam section {
+    position: relative;
     display: flex;
     flex-direction: column;
     box-shadow: 0 0 3rem rgba(0,0,0,0.35);
@@ -84,6 +85,20 @@ main {
 
 .webcam.hidden {
     transform: translateY(-100%);
+}
+
+.close {
+    position: absolute;
+    right: 1rem;
+    top: 0;
+    color: white;
+    font-size: 4rem;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.close:hover {
+    opacity: 0.8;
 }
 
 input[type="file"] {
