@@ -8,6 +8,7 @@ const App = {
         this.video = document.querySelector('video');
         this.ctx = this.canvas.getContext('2d');
         this.imageDataURL = '';
+        this.userChoice = '';
         this.addImageUploadEvent();
         this.addCameraEvent();
         this.addScreenshotEvents();
@@ -28,9 +29,11 @@ const App = {
         const button_wrapper = document.querySelector('.predict nav');
         button_wrapper.addEventListener('click', e => {
             const user_choice = e.target.dataset.choice;
+
             if (user_choice) {
                 this.handleUserSubmit(user_choice)
-                    .then(this.displayResults);
+                    .then(this.displayResults.bind(this));
+                this.userChoice = user_choice;
             }
         });
     },
@@ -106,8 +109,27 @@ const App = {
         return this.canvas.toDataURL();
     },
 
-    displayResults() {
+    displayResults(results) {
+        const results_container = document.querySelector('.results')
+        const first_slide = document.querySelector('.results h1:first-child');
+        const second_slide = document.querySelector('.results h1:last-child span');
         
+        results_container.classList.remove('hidden');
+        results_container.classList.add('first');
+
+        const prediction = (results.abstract > results.child) ? 'abstract' : 'child';
+        const percent = results[prediction] * 100;
+        const userCorrect = (this.userChoice == prediction) ? 'right' : 'wrong, sorry';
+
+        first_slide.innerHTML = `I'm ${percent}% sure<br> you are ${userCorrect}`;
+
+        const verdict = (prediction == 'abstract') ? 'abstract art' : 'child\'s drawing';
+        second_slide.textContent = `It's ${verdict}`;
+
+        setTimeout( () => {
+            results_container.classList.remove('first');
+            results_container.classList.add('second');
+        }, 6000);
     },
 
     handleUserSubmit(user_choice) {

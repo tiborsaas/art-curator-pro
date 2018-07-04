@@ -180,7 +180,7 @@ input[type="file"] {
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    transition: all 1s ease;
+    transition: opacity 1s ease;
     transform: translateX(0%);
     opacity: 1;
     background: #fff;
@@ -205,10 +205,22 @@ input[type="file"] {
             font-family: 'Times New Roman', Times, serif;
         }
 
+    .results h1 {
+        transform: scale(.7);
+    }
+    
+    .results.first h1:first-child {
+        transform: scale(1.2);
+    }
+
+    .results.second h1:last-child {
+        transform: scale(1.2);
+    }
+
     .results.first h1:last-child {
         display: none;
     }
-
+    
     .results.second h1:first-child {
         display: none;
     }
